@@ -67,7 +67,7 @@ def display_graph(valid, start, finish, walls):
         print(''.join(line))
 
 
-display_graph(valid, start, finish, walls)
+# display_graph(valid, start, finish, walls)
 
 
 def build_graph(valid, start, finish):
@@ -81,3 +81,18 @@ def build_graph(valid, start, finish):
 
 
 G = build_graph(valid, start, finish)
+
+
+def find_shortest_path(G, finish):
+    res = []
+    for f in finish:
+        try:
+            cur = nx.shortest_path(G, (2, 2), f)
+        except:
+            continue
+        res = cur if not res else min(res, cur, key=len)
+    return res
+
+
+path = find_shortest_path(G, finish)
+print(path)
