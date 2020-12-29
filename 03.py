@@ -43,12 +43,41 @@ def find_points(strands):
                 x, y = cur
                 dx, dy = DIRS[d]
                 cur = (x+dx, y+dy)
-                valid.add(k)
-    valid |= (start | finish)
+                valid.add(cur)
     return valid, start, finish, walls
 
 
 valid, start, finish, walls = find_points(strands)
 # print(start)  # starting point is (2, 2)
 # print(finish)  # length of valid finishes is 11
+# all_points = valid | start | finish | walls
+# print(max(all_points, key=lambda x: x[1]))  # (127, 69), (22, 127) max points
 
+def display_graph(valid, start, finish, walls):
+    grid = [['.' for _ in range(128)] for _ in range(128)]
+    for x, y in valid:
+        grid[x][y] = '#'
+    for x, y in start:
+        grid[x][y] = 'S'
+    for x, y in finish:
+        grid[x][y] = 'F'
+    for x, y in walls:
+        grid[x][y] = 'X'
+    for line in grid:
+        print(''.join(line))
+
+
+display_graph(valid, start, finish, walls)
+
+
+def build_graph(valid, start, finish):
+    valid |= (start | finish)
+    G = nx.Graph()
+    for x, y in valid:
+        for dx, dy in DIRS.values():
+            if (x+dx, y+dy) in valid:
+                G.add_edge((x+dx, y+dy), (x, y))
+    return G
+
+
+G = build_graph(valid, start, finish)
