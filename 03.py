@@ -1,5 +1,6 @@
 import re
 import networkx as nx
+from networkx import convert
 
 with open('03.txt', 'r') as file:
     data = file.read()
@@ -95,4 +96,17 @@ def find_shortest_path(G, finish):
 
 
 path = find_shortest_path(G, finish)
-print(path)
+
+
+def convert_to_steps(path):
+    res = []
+    for i, step in enumerate(path):
+        if i == 0:
+            continue
+        x, y = step
+        dx, dy = path[i-1]
+        res.append((x-dx, y-dy))
+    return res
+
+
+print(convert_to_steps(path))
