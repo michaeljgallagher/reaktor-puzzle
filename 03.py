@@ -56,13 +56,13 @@ valid, start, finish, walls = find_points(strands)
 def display_graph(valid, start, finish, walls):
     grid = [['.' for _ in range(128)] for _ in range(128)]
     for x, y in valid:
-        grid[x][y] = '#'
+        grid[y][x] = '#'
     for x, y in start:
-        grid[x][y] = 'S'
+        grid[y][x] = 'S'
     for x, y in finish:
-        grid[x][y] = 'F'
+        grid[y][x] = 'F'
     for x, y in walls:
-        grid[x][y] = 'X'
+        grid[y][x] = 'X'
     for line in grid:
         print(''.join(line))
 
