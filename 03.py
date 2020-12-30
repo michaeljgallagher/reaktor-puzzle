@@ -19,8 +19,8 @@ def parse_raw(data):
         pos = (int(x[0]), int(x[1]))
         moves = x[2].split(',')
         strands[pos] = moves
-    strands[(25,95)] = 'R,U,R,D,R,U,R,U,U,L,L,L,U,U,U,U,L,L,D'.split(',')  # my regex missed this one
-    strands[(104,15)] = []  # make this empty list rather than ['']
+    strands[(25, 95)] = 'R,U,R,D,R,U,R,U,U,L,L,L,U,U,U,U,L,L,D'.split(',')  # my regex missed this one
+    strands[(104, 15)] = []  # make this empty list rather than ['']
     return strands
 
 
@@ -53,10 +53,14 @@ valid, start, finish, walls = find_points(strands)
 # all_points = valid | start | finish | walls
 # print(max(all_points, key=lambda x: x[1]))  # (127, 69), (22, 127) max points
 
-def display_graph(valid, start, finish, walls):
+
+def display_graph(valid, start, finish, walls, path=None):
     grid = [['.' for _ in range(128)] for _ in range(128)]
     for x, y in valid:
         grid[y][x] = '#'
+    if path:
+        for x, y in path:
+            grid[y][x] = chr(9608)
     for x, y in start:
         grid[y][x] = 'S'
     for x, y in finish:
@@ -95,6 +99,7 @@ def find_shortest_path(G, finish):
 
 
 path = find_shortest_path(G, finish)
+# display_graph(valid, start, finish, walls, path=path)
 
 
 def convert_to_steps(path):
